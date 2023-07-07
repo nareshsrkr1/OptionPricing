@@ -27,12 +27,12 @@ jobs:
       run: docker push $DOCKER_HUB_USERNAME/my-flask-app
       
     - name: SSH into Azure VM and deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AZURE_VM_IP }}
-          username: ${{ secrets.AZURE_VM_USERNAME }}
-          key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
-          script: |
-            chmod 600 deploy.sh
-            scp -o StrictHostKeyChecking=no deploy.sh ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:/home/${{ secrets.AZURE_VM_USERNAME }}/deploy.sh
-            ssh -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} "bash -s" < deploy.sh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.AZURE_VM_IP }}
+        username: ${{ secrets.AZURE_VM_USERNAME }}
+        key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
+        script: |
+          chmod 600 deploy.sh
+          scp -o StrictHostKeyChecking=no deploy.sh ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:/home/${{ secrets.AZURE_VM_USERNAME }}/deploy.sh
+          ssh -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} "bash -s" < deploy.sh
