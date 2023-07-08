@@ -9,5 +9,5 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["python", "app.py"]
 CMD ["python", "aad_example.py"]
+CMD ["python", "app.py"]
