@@ -8,6 +8,7 @@ on:
 env:
   DOCKER_HUB_USERNAME: rahuldocker122
   DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
 jobs:
   build-and-deploy:
@@ -28,6 +29,8 @@ jobs:
       
     - name: Deploy to Azure VM
       uses: appleboy/ssh-action@master
+      env:
+          DOCKER_TOKEN: ${{ env.DOCKER_TOKEN }}
       with:
         host: ${{ secrets.AZURE_VM_IP }}
         username: ${{ secrets.AZURE_VM_USERNAME }}
