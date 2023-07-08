@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.AZURE_VM_USERNAME }}
           password: ${{ secrets.AZURE_VM_PASSWORD }}
           source: ./deploy.sh
-          target: /home/${{ secrets.AZURE_VM_USERNAME }}/deploy.sh
+          target: /home/rahul/deploy.sh
 
     - name: Run deployment script
       uses: appleboy/ssh-action@master
@@ -42,5 +42,5 @@ jobs:
         username: ${{ secrets.AZURE_VM_USERNAME }}
         password: ${{ secrets.AZURE_VM_PASSWORD }}
         script: |
-          chmod +x /home/${{ secrets.AZURE_VM_USERNAME }}/deploy.sh
-          /home/${{ secrets.AZURE_VM_USERNAME }}/deploy.sh
+          chmod +x /home/rahul/deploy.sh
+          /home/rahul/deploy.sh
