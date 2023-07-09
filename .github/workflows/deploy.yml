@@ -29,13 +29,13 @@ jobs:
       
     - name: Deploy to Azure VM
       uses: appleboy/ssh-action@master
-      env:
-          DOCKER_TOKEN: ${{ env.DOCKER_TOKEN }}
       with:
-        host: ${{ secrets.AZURE_VM_IP }}
-        username: ${{ secrets.AZURE_VM_USERNAME }}
-        password: ${{ secrets.AZURE_VM_PASSWORD }}
+        host: ${{ secrets.AZ_DUMMY_VM_IP }}
+        username: ${{ secrets.AZ_DUMMY_VM_USERNAME }}
+        key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
         script: |
-          sudo docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-          sudo docker pull $DOCKER_HUB_USERNAME/my-flask-app:latest
-          sudo docker run -d -p 5000:5000 $DOCKER_HUB_USERNAME/my-flask-app:latest
+          eval "$(ssh-agent)"
+          ssh-add - <<<"${{ secrets.VM_SSH_PRIVATE_KEY }}"
+          docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+          docker pull rahuldocker122/my-flask-app:latest
+          docker run -d -p 80:80 rahuldocker122/my-flask-app:latest
