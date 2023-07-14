@@ -38,4 +38,4 @@ jobs:
           ssh-add - <<<"${{ secrets.VM_SSH_PRIVATE_KEY }}"
           docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
           docker pull rahuldocker122/my-flask-app:latest
-          docker run -d -p 5000:8051 rahuldocker122/my-flask-app:latest
+          docker run -d -p 5000:8501 rahuldocker122/my-flask-app:latest
