@@ -10,4 +10,4 @@ COPY . .
 # Install Streamlit
 RUN pip install streamlit
 
-CMD ["streamlit","python", "app.py"]
+CMD ["streamlit","run", "app.py"]
