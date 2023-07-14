@@ -3,7 +3,7 @@ name: Docker Hub Deployment
 on:
   push:
     branches:
-      - develop
+      - main
 
 env:
   DOCKER_HUB_USERNAME: rahuldocker122
