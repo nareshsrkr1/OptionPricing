@@ -1,5 +1,6 @@
 input:
   dataset_filename: InputDataSetLatest.csv
+  read1k_filename: random1k.csv
 
 model:
   nodes: 120
@@ -14,7 +15,7 @@ model:
 
 logging:
   level: INFO
-  filename: model_training.log
+  filename: model_app.log
   format: "%(asctime)s - %(levelname)s - %(message)s"
 
 files:
