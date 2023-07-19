@@ -39,6 +39,6 @@ jobs:
           ssh-add - <<<"${{ secrets.VM_SSH_PRIVATE_KEY }}"
           docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
           docker stop $(docker ps -aq --filter "ancestor=rahuldocker122/my-flask-app")
-          docker rm -f $(docker images -q rahuldocker122/my-flask-app)
+          docker rmi -f $(docker images -q rahuldocker122/my-flask-app)
           docker pull rahuldocker122/my-flask-app:latest
           docker run -d -p 5000:5000 rahuldocker122/my-flask-app:latest
