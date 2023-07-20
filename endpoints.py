@@ -92,9 +92,11 @@ def compareMC():
         set_log_filename('logs/compareMC.log')
         initialize_log_handler()
         json_data = request.json
-        model_filename = current_app.config['files']['model_filename']
-        scaler_filename = current_app.config['files']['scaler_filename']
-        calc_option_values_json = model_custom_predict_multiple(json_data,model_filename,scaler_filename)
+        # model_filename = current_app.config['files']['model_filename']
+        # scaler_filename = current_app.config['files']['scaler_filename']
+        loaded_model = current_app.loaded_model
+        scaler = current_app.scaler
+        calc_option_values_json = model_custom_predict_multiple(json_data,loaded_model,scaler)
         # print('calc_option_values_json',calc_option_values_json)
         logger.info("Option value prediction: %s", calc_option_values_json)
         return jsonify(calc_option_values_json)

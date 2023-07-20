@@ -21,3 +21,5 @@ logging:
 files:
   model_filename: OptionValuationModel_opt
   scaler_filename: scalars_model_opt.save
+connection_string: "DefaultEndpointsProtocol=https;AccountName=csg10032002ba1d46d6;AccountKey=T5TiTsmpHHAGl9FXpdmlHuVn4oNu2vJH/sILoTRewkVU2G27aNa/M1ZfYmpdzJZEJx0cEMHuN6Je+AStfcnEXw==;EndpointSuffix=core.windows.net"
+container_name:  trainedmodel
