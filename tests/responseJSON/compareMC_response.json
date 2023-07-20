@@ -1,0 +1,4 @@
+{"records": [{"Maturity": 99, "Option_Value": 21.132455825805664, "Spot_Price": 55, "Strike_Price": 38.5, "Volatility": 0.45, "risk_free_interest": 0.01},
+             {"Maturity": 110, "Option_Value": 27.655975341796875, "Spot_Price": 60, "Strike_Price": 40, "Volatility": 0.54, "risk_free_interest": 0.01}
+            ]
+}
