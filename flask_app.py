@@ -34,6 +34,7 @@ def download_model(connection_string, container_name):
 
         for blob in blobs:
             # Create the local directory structure based on the blob's directory path
+            print('blob',blob)
             blob_client = container_client.get_blob_client(blob)
             local_path = os.path.join(".", blob.name)
             local_dir = os.path.dirname(local_path)
@@ -42,8 +43,8 @@ def download_model(connection_string, container_name):
             with open(local_path, "wb") as file:
                 file.write(blob_client.download_blob().readall())
 
-            loaded_model = tf.keras.models.load_model(app.config['files']['model_filename'])
-            scaler = joblib.load(app.config['files']['scaler_filename'])
+        loaded_model = tf.keras.models.load_model(app.config['files']['model_filename'])
+        scaler = joblib.load(app.config['files']['scaler_filename'])
 
         # Set download_completed flag to True when the download is successful
         download_completed = True
