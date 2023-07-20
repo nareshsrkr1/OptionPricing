@@ -104,6 +104,7 @@ def model_custom_predict_multiple(json_data, model_filename, scaler_filename):
             maturity = record['Maturity']
             risk_free_interest = record['risk_free_interest']
             volatility = record['Volatility']
+            cal_val_mc = record['Call_Premium']
 
             # Perform the prediction for each record
             inputs_to_model = pd.DataFrame({
@@ -132,7 +133,8 @@ def model_custom_predict_multiple(json_data, model_filename, scaler_filename):
                 "Maturity": maturity,
                 "risk_free_interest": risk_free_interest,
                 "Volatility": volatility,
-                "Option_Value": option_value.item()
+                "Call_Premium":cal_val_mc,
+                "Option_Value": round(option_value.item(),2)
             }
 
             # Append the result to the list

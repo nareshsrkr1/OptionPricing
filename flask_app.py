@@ -1,10 +1,11 @@
 from flask import Flask
 import yaml
 from endpoints import model_routes
-
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 # Read YAML configuration file
 with open('config/config_model.yml', 'r') as config_file:
     config = yaml.safe_load(config_file)

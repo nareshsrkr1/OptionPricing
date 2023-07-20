@@ -1,4 +1,4 @@
-Spot Price,Strike Price,Maturity,risk_free_interest,Volatility,Call_Premium
+Spot_Price,Strike_Price,Maturity,risk_free_interest,Volatility,Call_Premium
 950,1149.5,450,0.01,0.5,146.2094
 1650,1328.25,660,0.01,0.8,799.9141
 50,55.75,330,0.01,0.5,7.5228

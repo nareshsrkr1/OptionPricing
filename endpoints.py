@@ -71,11 +71,11 @@ def predict_option_value():
         set_log_filename('logs/model_predict.log')
         initialize_log_handler()
         data = request.json
-        spot_price = data['Spot_Price']
-        strike_price = data['Strike_Price']
-        maturity = data['Maturity']
-        risk_free_interest = data['risk_free_interest']
-        volatility = data['Volatility']
+        spot_price = float(data['Spot_Price'])
+        strike_price = float(data['Strike_Price'])
+        maturity = float(data['Maturity'])
+        risk_free_interest = float(data['risk_free_interest'])
+        volatility = float(data['Volatility'])
         model_filename = current_app.config['files']['model_filename']
         scaler_filename = current_app.config['files']['scaler_filename']
         option_value = model_custom_predict(spot_price, strike_price, maturity, risk_free_interest, volatility,model_filename,scaler_filename)
@@ -124,11 +124,11 @@ def calcMonteCarlos():
         initialize_log_handler()
         # Get the input data from the request
         data = request.json
-        S = Variable(torch.tensor(data['Spot_Price']), requires_grad=True)
-        K = Variable(torch.tensor(data['Strike_Price']), requires_grad=True)
-        r = Variable(torch.tensor(data['risk_free_interest']), requires_grad=True)
-        T = Variable(torch.tensor(data['Maturity']/365), requires_grad=True)
-        sigma = Variable(torch.tensor(data['Volatility']), requires_grad=True)
+        S = Variable(torch.tensor(float(data['Spot_Price'])), requires_grad=True)
+        K = Variable(torch.tensor(float(data['Strike_Price'])), requires_grad=True)
+        r = Variable(torch.tensor(float(data['risk_free_interest'])), requires_grad=True)
+        T = Variable(torch.tensor(float(data['Maturity'])/365), requires_grad=True)
+        sigma = Variable(torch.tensor(float(data['Volatility'])), requires_grad=True)
         call_option_value = monte_carlo_call(S,K,r,T,sigma)
         logger.info("Calculate option value "+ str(call_option_value.item()))
         return jsonify({'Monte Carlos Option value ': round(call_option_value.item(),2)})

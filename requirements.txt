@@ -25,6 +25,7 @@ flatbuffers==23.5.26
 fonttools==4.40.0
 frozendict==2.3.8
 fsspec==2023.6.0
+Flask==2.3.2
 gast==0.4.0
 gitdb==4.0.10
 GitPython==3.1.32
@@ -121,3 +122,4 @@ wrapt==1.15.0
 yahoo-fin==0.8.9.1
 yfinance==0.2.22
 zipp==3.15.0
+flask-cors==4.0.0
