@@ -42,3 +42,4 @@ jobs:
           docker rmi -f $(docker images -q rahuldocker122/my-flask-app)
           docker pull rahuldocker122/my-flask-app:latest
           docker run -d -p 5000:5000 rahuldocker122/my-flask-app:latest
+          sh /home/azureuser/cleanup.sh
