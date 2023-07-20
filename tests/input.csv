@@ -1,0 +1,8 @@
+request_type|url|request_json|response_json|ignore_fields
+GET|http://localhost:5000/||responseJSON/homepage_response.json|
+POST|http://localhost:5000/train||responseJSON/train_response.json|
+POST|http://localhost:5000/predict|requestJSON/predict_request.json|responseJSON/predict_response.json|
+POST|http://localhost:5000/compareMC|requestJSON/compareMC_request.json|responseJSON/compareMC_response.json|"['Option_Value']"
+GET|http://localhost:5000/read1krecords||responseJSON/read1krecords_response.json|
+POST|http://localhost:5000/calcMC|requestJSON/calcMC_request.json|responseJSON/calcMC_response.json|
+POST|http://localhost:5000/calcGradients|requestJSON/calcGradients_request.json|responseJSON/calcGradients_response.json|

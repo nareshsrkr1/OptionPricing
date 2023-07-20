@@ -1,0 +1,4 @@
+{"records": [{"Spot_Price": 55, "Strike_Price": 38.5, "Maturity": 99, "risk_free_interest": 0.01, "Volatility": 0.45},
+             {"Spot_Price": 60, "Strike_Price": 40, "Maturity": 110, "risk_free_interest": 0.01, "Volatility": 0.54}
+            ]
+}
