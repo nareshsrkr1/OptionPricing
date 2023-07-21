@@ -7,6 +7,7 @@ from threading import Thread
 from azure.storage.blob import BlobServiceClient
 import tensorflow as tf
 import joblib
+import shutil
 
 app = Flask(__name__)
 CORS(app)
@@ -24,29 +25,30 @@ download_completed = False
 
 # Function to download the model from Azure Blob Storage
 def download_model(connection_string, container_name):
-    global download_completed
-
     try:
+        global download_completed
         blob_service_client = BlobServiceClient.from_connection_string(connection_string)
         container_client = blob_service_client.get_container_client(container_name)
 
-        blobs = container_client.list_blobs()
+        download_directory = app.config['files']['model_filename']
+        download_file = app.config['files']['scaler_filename']
+        os.makedirs(download_directory, exist_ok=True)
 
+        blobs = container_client.list_blobs(name_starts_with=download_directory)
         for blob in blobs:
-            # Create the local directory structure based on the blob's directory path
-            print('blob',blob)
-            blob_client = container_client.get_blob_client(blob)
-            local_path = os.path.join(".", blob.name)
-            local_dir = os.path.dirname(local_path)
-            os.makedirs(local_dir, exist_ok=True)
-
+            local_path = os.path.join('.', blob.name)
+            os.makedirs(os.path.dirname(local_path), exist_ok=True)
             with open(local_path, "wb") as file:
-                file.write(blob_client.download_blob().readall())
+                file.write(container_client.get_blob_client(blob).download_blob().readall())
 
-        loaded_model = tf.keras.models.load_model(app.config['files']['model_filename'])
-        scaler = joblib.load(app.config['files']['scaler_filename'])
+        # Download the specified file
+        blob_client = container_client.get_blob_client(download_file)
+        with open(download_file, "wb") as file:
+            file.write(blob_client.download_blob().readall())
 
-        # Set download_completed flag to True when the download is successful
+        loaded_model = tf.keras.models.load_model("./" + download_directory)
+        scaler = joblib.load("./" + download_file)
+
         download_completed = True
         with app.app_context():
             app.loaded_model = loaded_model
