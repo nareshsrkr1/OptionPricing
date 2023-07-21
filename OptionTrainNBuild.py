@@ -65,8 +65,8 @@ def build_model(input_dim):
         logging.error("An error occurred while building the model: %s", str(e))
 
 
-def model_custom_predict(Spot_Price, Strike_Price, Maturity, risk_free_interest, Volatility, model_filename,
-                         scaler_filename):
+def model_custom_predict(Spot_Price, Strike_Price, Maturity, risk_free_interest, Volatility, loaded_model,
+                         scaler):
     try:
         inputs_to_model = pd.DataFrame({'Spot Price': [Spot_Price / Strike_Price],
                                         'Strike Price': [Strike_Price],
@@ -75,8 +75,6 @@ def model_custom_predict(Spot_Price, Strike_Price, Maturity, risk_free_interest,
                                         'Volatility': [Volatility]
                                         })
 
-        loaded_model = tf.keras.models.load_model(model_filename)
-        scaler = joblib.load(scaler_filename)
         input_data_scaled = scaler.transform(inputs_to_model)
         value = loaded_model.predict(input_data_scaled)
         option_value = value * Strike_Price
