@@ -15,8 +15,8 @@ def home():
     set_log_filename('logs/test.log')
     initialize_log_handler()
     logger.info('App is running')
-    print('App is running')
-    return 'App is running'
+    print('App running')
+    return 'App running'
 
 @model_routes.route('/train', methods=['POST'])
 def train_model():
