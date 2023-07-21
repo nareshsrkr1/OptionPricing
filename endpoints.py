@@ -76,9 +76,8 @@ def predict_option_value():
         maturity = float(data['Maturity'])
         risk_free_interest = float(data['risk_free_interest'])
         volatility = float(data['Volatility'])
-        model_filename = current_app.config['files']['model_filename']
-        scaler_filename = current_app.config['files']['scaler_filename']
-        option_value = model_custom_predict(spot_price, strike_price, maturity, risk_free_interest, volatility,model_filename,scaler_filename)
+        
+        option_value = model_custom_predict(spot_price, strike_price, maturity, risk_free_interest, volatility,current_app.loaded_model,current_app.scaler)
         logger.info("Option value prediction: %s", option_value)
         return jsonify({'option_value': str(round(option_value[0][0],2))})
     except Exception as e:
