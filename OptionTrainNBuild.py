@@ -142,7 +142,6 @@ def model_custom_predict_multiple(json_data, loaded_model, scaler):
                     "Call_Premium": record["Call_Premium"]
                 }
                 results.append(result)
-            print(results)
             return results
 
     except Exception as e:
