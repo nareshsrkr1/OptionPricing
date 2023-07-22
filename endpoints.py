@@ -7,22 +7,32 @@ from ComputeBS_MC import black_scholes_call,monte_carlo_call
 import torch
 from log_conf import logger,set_log_filename,initialize_log_handler
 
-
 model_routes = Blueprint('model_routes', __name__)
+
 
 @model_routes.route('/')
 def home():
+<<<<<<< HEAD
+    # set_log_filename('logs/test.log')
+    # initialize_log_handler()
+    current_app.logger.info('App is running')
+    print('App is running')
+    return 'App is running'
+=======
     set_log_filename('logs/test.log')
     initialize_log_handler()
     logger.info('App is running')
     print('App running')
     return 'App running'
+>>>>>>> ec72636d784c53c45e2badbab5a611359719cf1e
 
 @model_routes.route('/train', methods=['POST'])
 def train_model():
     try:
-        set_log_filename('logs/model_train.log')
-        initialize_log_handler()
+        logger = current_app.logger
+
+        # set_log_filename('logs/model_train.log')
+        # initialize_log_handler()
         # Load and preprocess the dataset
         dataset_filename = current_app.config['input']['dataset_filename']
         X, Y = load_dataset(dataset_filename)
@@ -68,8 +78,9 @@ def train_model():
 @model_routes.route('/predict', methods=['POST'])
 def predict_option_value():
     try:
-        set_log_filename('logs/model_predict.log')
-        initialize_log_handler()
+        # set_log_filename('logs/model_predict.log')
+        # initialize_log_handler()
+        logger = current_app.logger
         data = request.json
         spot_price = float(data['Spot_Price'])
         strike_price = float(data['Strike_Price'])
@@ -81,15 +92,15 @@ def predict_option_value():
         logger.info("Option value prediction: %s", option_value)
         return jsonify({'option_value': str(round(option_value[0][0],2))})
     except Exception as e:
-        # print(str(e))
         logger.error("An error occurred during option value prediction: %s", str(e))
         return jsonify({'error': 'An error occurred during option value prediction.'})
 
 @model_routes.route('/compareMC', methods=['POST'])
 def compareMC():
     try:
-        set_log_filename('logs/compareMC.log')
-        initialize_log_handler()
+        # set_log_filename('logs/compareMC.log')
+        # initialize_log_handler()
+        logger = current_app.logger
         json_data = request.json
         loaded_model = current_app.loaded_model
         scaler = current_app.scaler
@@ -104,8 +115,9 @@ def compareMC():
 @model_routes.route('/read1krecords', methods=['GET'])
 def send1krecords():
     try:
-        set_log_filename('logs/read1krecords.log')
-        initialize_log_handler()
+        # set_log_filename('logs/read1krecords.log')
+        # initialize_log_handler()
+        logger = current_app.logger
         file_name = current_app.config['input']['read1k_filename']
         results = read1krecords(file_name)
         logger.info("fetched random1k records file ")
@@ -118,9 +130,10 @@ def send1krecords():
 @model_routes.route('/calcMC', methods=['POST'])
 def calcMonteCarlos():
     try:
-        set_log_filename('logs/calcMC.log')
-        initialize_log_handler()
+        # set_log_filename('logs/calcMC.log')
+        # initialize_log_handler()
         # Get the input data from the request
+        logger = current_app.logger
         data = request.json
         S = Variable(torch.tensor(float(data['Spot_Price'])), requires_grad=True)
         K = Variable(torch.tensor(float(data['Strike_Price'])), requires_grad=True)
@@ -138,9 +151,10 @@ def calcMonteCarlos():
 @model_routes.route('/calcGradients', methods=['POST'])
 def calcBSNGradients():
     try:
-        set_log_filename('logs/calcGrad.log')
-        initialize_log_handler()
+        # set_log_filename('logs/calcGrad.log')
+        # initialize_log_handler()
         # Get the input data from the request
+        logger = current_app.logger
         data = request.json
         S = Variable(torch.tensor(data['Spot_Price']), requires_grad=True)
         K = Variable(torch.tensor(data['Strike_Price']), requires_grad=True)

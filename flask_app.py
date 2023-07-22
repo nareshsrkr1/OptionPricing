@@ -1,5 +1,4 @@
 from flask import Flask
-import yaml
 from endpoints import model_routes
 from flask_cors import CORS
 import os
@@ -7,21 +6,34 @@ from threading import Thread
 from azure.storage.blob import BlobServiceClient
 import tensorflow as tf
 import joblib
-import shutil
+from appconfig import get_all_configurations
+import logging
+from opencensus.ext.azure.log_exporter import AzureLogHandler
 
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-# Read YAML configuration file
-with open('config/config_model.yml', 'r') as config_file:
-    config = yaml.safe_load(config_file)
 
-# Set Flask configuration variables
-app.config.update(config)
+#Azure app config
+AZURE_CONFIG_CONNECTION_STRING = "Endpoint=https://app-config-predictive.azconfig.io;Id=K39n;Secret=Z0oNxiCBtKfIk90Gj2Yftdlv85XPD76uL1/sGCLwy1k="
+app.config.update(get_all_configurations(AZURE_CONFIG_CONNECTION_STRING))
+
+#Azure app insights
+INSTRUMENTATION_KEY = app.config.get("instrument_key_appinsights")
+print('INSTRUMENTATION_KEY',INSTRUMENTATION_KEY)
+
+
+
 app.register_blueprint(model_routes)
-
-# Flag to track model download status
 download_completed = False
+
+# logger = create_custom_logger(app)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(AzureLogHandler(connection_string=INSTRUMENTATION_KEY))
+logger.warning('logging added')
+app.logger = logger
+
 
 # Function to download the model from Azure Blob Storage
 def download_model(connection_string, container_name):
@@ -69,6 +81,9 @@ if __name__ == '__main__':
     # Start the Flask app only if the download was successful
     if download_completed:
         # Attach the loaded model and scaler to current_app
+        logger.info("flask app started successfully on port 5000")
         app.run(host='0.0.0.0', port=5000)
+
     else:
+        logger.error("Model download failed. Flask app will not be started.")
         print("Model download failed. Flask app will not be started.")
