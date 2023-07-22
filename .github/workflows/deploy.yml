@@ -3,7 +3,7 @@ name: Docker Hub Deployment
 on:
   push:
     branches:
-      - develop
+      - integration
   workflow_dispatch: # Manual trigger
 
 env:
@@ -37,6 +37,21 @@ jobs:
         script: |
           eval "$(ssh-agent)"
           ssh-add - <<<"${{ secrets.VM_SSH_PRIVATE_KEY }}"
+          docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+          docker stop $(docker ps -aq --filter "ancestor=rahuldocker122/my-flask-app")
+          docker rmi -f $(docker images -q rahuldocker122/my-flask-app)
+          docker pull rahuldocker122/my-flask-app:latest
+          docker run -d -p 5000:5000 rahuldocker122/my-flask-app:latest
+          
+    - name: Deploy to Azure VM 2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VM2 }}
+        username: ${{ secrets.AZ_DUMMY_VM_USERNAME }}
+        key: ${{ secrets.VM2_SSH_KEY }}
+        script: |
+          eval "$(ssh-agent)"
+          ssh-add - <<<"${{ secrets.VM2_SSH_KEY }}"
           docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
           docker stop $(docker ps -aq --filter "ancestor=rahuldocker122/my-flask-app")
           docker rmi -f $(docker images -q rahuldocker122/my-flask-app)
