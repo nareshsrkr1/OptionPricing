@@ -3,9 +3,12 @@ from sklearn.preprocessing import StandardScaler
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, LeakyReLU
 from keras.optimizers import Adam
-import joblib
-import logging
-import tensorflow as tf
+import joblib,logging
+import numpy as np
+
+logger = logging.getLogger(__name__)
+
+
 
 
 def load_dataset(filename):
@@ -18,8 +21,10 @@ def load_dataset(filename):
         Y = df['Call_Premium']
         return X, Y
     except Exception as e:
-        print('error', str(e))
-        logging.error("An error occurred while loading the dataset: %s", str(e))
+        error_msg = 'An error occurred while loading the dataset: ' + str(e)
+        print('Error:', error_msg)
+        logger.error(error_msg)
+        return None, error_msg
 
 
 def scale_data(X_train, X_test):
@@ -29,8 +34,10 @@ def scale_data(X_train, X_test):
         X_test_scaled = scaler.transform(X_test)
         return X_train_scaled, X_test_scaled, scaler
     except Exception as e:
-        print('error', str(e))
-        logging.error("An error occurred while scaling the data: %s", str(e))
+        error_msg = 'An error occurred while loading the dataset: ' + str(e)
+        print('Error:', error_msg)
+        logger.error(error_msg)
+        return None, None,error_msg
 
 
 def save_model(model, scaler, model_filename, scaler_filename):
@@ -39,8 +46,10 @@ def save_model(model, scaler, model_filename, scaler_filename):
         model.save(model_filename, save_format='tf')
         joblib.dump(scaler, scaler_filename)
     except Exception as e:
-        print('error', str(e))
-        logging.error("An error occurred while saving the model and scaler: %s", str(e))
+        error_msg = 'An error occurred while loading the dataset: ' + str(e)
+        print('Error:', error_msg)
+        logger.error(error_msg)
+        # return None, error_msg
 
 
 def build_model(input_dim):
@@ -61,8 +70,10 @@ def build_model(input_dim):
         model.compile(loss='mse', optimizer=optimizer)
         return model
     except Exception as e:
-        print('error', str(e))
-        logging.error("An error occurred while building the model: %s", str(e))
+        error_msg = 'An error occurred while loading the dataset: ' + str(e)
+        print('Error:', error_msg)
+        logger.error(error_msg)
+        return error_msg
 
 
 def model_custom_predict(Spot_Price, Strike_Price, Maturity, risk_free_interest, Volatility, loaded_model,
@@ -80,10 +91,11 @@ def model_custom_predict(Spot_Price, Strike_Price, Maturity, risk_free_interest,
         option_value = value * Strike_Price
         return option_value
     except Exception as e:
-        print('error', str(e))
-        logging.error("An error occurred while predicting the option value: %s", str(e))
+        error_msg = 'An error occurred while loading the dataset: ' + str(e)
+        print('Error:', error_msg)
+        logger.error(error_msg)
+        return error_msg
 
-import numpy as np
 def model_custom_predict_multiple(json_data, loaded_model, scaler):
     try:
         data = json_data
@@ -134,8 +146,10 @@ def model_custom_predict_multiple(json_data, loaded_model, scaler):
             return results
 
     except Exception as e:
-        print('error', str(e))
-        logging.error("An error occurred while predicting the option values: %s", str(e))
+        error_msg = 'An error occurred while loading the dataset: ' + str(e)
+        print('Error:', error_msg)
+        logger.error(error_msg)
+        return error_msg
 
 def read1krecords(file_name):
     try:
@@ -143,5 +157,7 @@ def read1krecords(file_name):
         data = df.to_dict(orient='records')
         return data
     except Exception as e:
-        print(str(e))
-        logging.error("An error occurred while reading 1k records: %s", str(e))
+        error_msg = 'An error occurred while loading the dataset: ' + str(e)
+        print('Error:', error_msg)
+        logger.error(error_msg)
+        return error_msg
