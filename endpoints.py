@@ -12,20 +12,9 @@ model_routes = Blueprint('model_routes', __name__)
 
 @model_routes.route('/')
 def home():
-<<<<<<< HEAD
-    # set_log_filename('logs/test.log')
-    # initialize_log_handler()
     current_app.logger.info('App is running')
     print('App is running')
     return 'App is running'
-=======
-    set_log_filename('logs/test.log')
-    initialize_log_handler()
-    logger.info('App is running')
-    print('App running')
-    return 'App running'
->>>>>>> ec72636d784c53c45e2badbab5a611359719cf1e
-
 @model_routes.route('/train', methods=['POST'])
 def train_model():
     try:
