@@ -99,7 +99,6 @@ def model_custom_predict(Spot_Price, Strike_Price, Maturity, risk_free_interest,
 def model_custom_predict_multiple(json_data, loaded_model, scaler):
     try:
         data = json_data
-
         records = data['records']
         batch_size = 100
         record_chunks = [records[i:i + batch_size] for i in range(0, len(records), batch_size)]
@@ -122,7 +121,6 @@ def model_custom_predict_multiple(json_data, loaded_model, scaler):
                 'risk_free_interest': risk_free_interests,
                 'Volatility': volatilities
             })
-
             # Scale the input data
             input_data_scaled = scaler.transform(inputs_to_model)
 
@@ -138,8 +136,9 @@ def model_custom_predict_multiple(json_data, loaded_model, scaler):
                     "Maturity": maturities[i].item(),
                     "risk_free_interest": risk_free_interests[i].item(),
                     "Volatility": volatilities[i].item(),
-                    "Option_Value": round(option_values[i].item(), 2),
-                    "Call_Premium": record["Call_Premium"]
+                    "Call_Premium": record["Call_Premium"],
+                    "Monte_Carlos_value": record['Monte_Carlo_Value'],
+                    "Model_Value": round(option_values[i].item(), 2),
                 }
                 results.append(result)
             return results
