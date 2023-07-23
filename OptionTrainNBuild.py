@@ -137,7 +137,7 @@ def model_custom_predict_multiple(json_data, loaded_model, scaler):
                     "risk_free_interest": risk_free_interests[i].item(),
                     "Volatility": volatilities[i].item(),
                     "Call_Premium": record["Call_Premium"],
-                    "Monte_Carlos_value": record['Monte_Carlos_Value'],
+                    "Monte_Carlos_Value": record['Monte_Carlos_Value'],
                     "Model_Value": round(option_values[i].item(), 2),
                 }
                 results.append(result)
