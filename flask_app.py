@@ -15,7 +15,8 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 #Azure app config
-AZURE_CONFIG_CONNECTION_STRING = "Endpoint=https://app-config-predictive.azconfig.io;Id=K39n;Secret=Z0oNxiCBtKfIk90Gj2Yftdlv85XPD76uL1/sGCLwy1k="
+#AZURE_CONFIG_CONNECTION_STRING = "Endpoint=https://app-config-predictive.azconfig.io;Id=K39n;Secret=Z0oNxiCBtKfIk90Gj2Yftdlv85XPD76uL1/sGCLwy1k="
+AZURE_CONFIG_CONNECTION_STRING = os.environ['CONFIG_CONNECTION_STRING']
 app.config.update(get_all_configurations(AZURE_CONFIG_CONNECTION_STRING))
 
 #Azure app insights
