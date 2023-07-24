@@ -125,7 +125,7 @@ def model_custom_predict_multiple(json_data, loaded_model, scaler):
             input_data_scaled = scaler.transform(inputs_to_model)
 
             # Predict the option values for the chunk
-            values = loaded_model.predict(input_data_scaled)
+            values = loaded_model.predict(input_data_scaled,verbose=0)
             option_values = values.flatten() * strike_prices
 
             # Construct the result objects for the chunk
@@ -137,11 +137,11 @@ def model_custom_predict_multiple(json_data, loaded_model, scaler):
                     "risk_free_interest": risk_free_interests[i].item(),
                     "Volatility": volatilities[i].item(),
                     "Call_Premium": record["Call_Premium"],
-                    "Monte_Carlos_Value": record['Monte_Carlos_Value'],
+                    "Monte_Carlos_value": record['Monte_Carlo_Value'],
                     "Model_Value": round(option_values[i].item(), 2),
                 }
                 results.append(result)
-            return results
+        return results
 
     except Exception as e:
         error_msg = 'An error occurred while loading the dataset: ' + str(e)
