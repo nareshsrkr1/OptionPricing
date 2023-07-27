@@ -6,7 +6,7 @@ import dask.diagnostics
 import time
 from dask import delayed
 from dask.diagnostics import ProgressBar
-import logging 
+import logging
 
 def simulate_option_price(row, num_simulations=100000):
     S = row['Spot Price']
